@@ -25,7 +25,7 @@ const Clogin = () => {
     axios.post("http://localhost:9002/login", user)
       .then(res => {
         //console.log(res.data.user);
-        toast(res.data.message, {theme: "dark"})
+        toast(res.data.message, {theme: "dark",position: toast.POSITION.TOP_LEFT})
         sessionStorage.clear();
         sessionStorage.setItem("name", res.data.user.name);
         sessionStorage.setItem("email", res.data.user.email);

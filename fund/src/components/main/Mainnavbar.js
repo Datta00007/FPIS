@@ -11,7 +11,7 @@ const Mainnavbar = () => {
     const history = useHistory();
     const logout = () => {
         sessionStorage.clear();
-        toast.success("Logout Successful");
+        toast.success("Logout Successful",{position: toast.POSITION.TOP_LEFT});
         history.push("/");
     }
 

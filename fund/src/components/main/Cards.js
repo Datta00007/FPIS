@@ -38,7 +38,7 @@ function Cards() {
         // console.log(user) 
         // console.log(pid) 
         axios.delete(`http://localhost:9002/delete/${pid}`).then(res => {
-            toast.success(res.data.message, {theme: "dark"})
+            toast.success(res.data.message, {theme: "dark",position: toast.POSITION.TOP_LEFT})
            
              window.location.reload(false);
         })
@@ -72,9 +72,10 @@ function Cards() {
                                 {/* "\n Product id: "+(curElem.pid)+ */}
                                 {/* <img src={src} alt="Qr Code" /> */}
                                 <QRCode
-                                    level="Q"
+                                    level="L"
                                     style={{ width: 150 }}
-                                    value={"\n Product id: "+(curElem.pid)+"\n" + (curElem.name) + "\n Compnay:" + (curElem.company) + "\n Color:" + (curElem.color) + "\n MFG:" + (curElem.mfg) + "\n Expiry:" + (curElem.expiry)}
+                                    // value={"\n Product id: "+(curElem.pid)+"\n" + (curElem.name) + "\n Compnay:" + (curElem.company) + "\n Color:" + (curElem.color) + "\n MFG:" + (curElem.mfg) + "\n Expiry:" + (curElem.expiry)}
+                                    value={(curElem.pid)}
 
                                 />
                                 <br />

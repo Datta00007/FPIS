@@ -140,7 +140,7 @@ function Product(props) {
         const {name, category,color, mfg, expiry} = user;
         if(!name || !category || !color || !mfg || !expiry)
         {
-            toast.warn("all fields are required", {theme: "dark"});
+            toast.warn("all fields are required", {theme: "dark",position: toast.POSITION.TOP_LEFT});
             return;
         }
         user.pid = uuid();
@@ -149,7 +149,7 @@ function Product(props) {
         axios.post("http://localhost:9002/addproduct", user)
             .then(res => {
                 //console.log(res.data.user);
-                toast.success(res.data.message, {theme: "dark"})
+                toast.success(res.data.message, {theme: "dark",position: toast.POSITION.TOP_LEFT})
                 
                 // window.location.reload(false);
 

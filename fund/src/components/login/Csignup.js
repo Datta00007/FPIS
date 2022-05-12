@@ -31,12 +31,12 @@ const Csignup = () => {
         if (name && email && password && phone && address && username) {
             axios.post("http://localhost:9002/register", user)
                 .then(res => {
-                    toast.success(res.data.message, {theme: "dark"})
+                    toast.success(res.data.message, {theme: "dark",position: toast.POSITION.TOP_LEFT})
 
                     history.push("/clogin")
                 })
         } else {
-            toast.error("invlid input", {theme: "dark"})
+            toast.error("invlid input", {theme: "dark",position: toast.POSITION.TOP_LEFT})
         }
 
     }

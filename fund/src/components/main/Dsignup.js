@@ -34,7 +34,7 @@ const Dsignup = () => {
         if (name && email && password && phone && username && owner) {
             axios.post("http://localhost:9002/dsignup", user)
                 .then(res => {
-                    toast(res.data.message)
+                    toast(res.data.message,{position: toast.POSITION.TOP_LEFT})
                     // console.log(res.data.message);
                     setTimeout(() => {
                         window.location.reload(false);
@@ -42,7 +42,7 @@ const Dsignup = () => {
                     
                 })
         } else {
-            toast("invlid input")
+            toast("invlid input",{position: toast.POSITION.TOP_LEFT})
         }
 
     }

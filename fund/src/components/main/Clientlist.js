@@ -42,7 +42,7 @@ function Clientlist() {
         // console.log(user) 
         // console.log(pid) 
         axios.delete(`http://localhost:9002/deleteclient/${pid}`).then(res => {
-            toast(res.data.message)
+            toast(res.data.message,{position: toast.POSITION.TOP_LEFT})
             setTimeout(() => {
                 window.location.reload(false);
             }, 2000);

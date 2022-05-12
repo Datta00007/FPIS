@@ -89,7 +89,7 @@ const Contact = () => {
         console.log(user)
         axios.post("http://localhost:9002/contact", user)
             .then(res => {
-                toast.success(res.data.message, { theme: "dark" })
+                toast.success(res.data.message, { theme: "dark",position: toast.POSITION.TOP_LEFT })
                 //window.location.reload(false);
                 history.push("/main");
             })
