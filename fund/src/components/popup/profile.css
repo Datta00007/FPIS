@@ -1,0 +1,119 @@
+.popup-profile{
+    border-radius: 10px;
+    border: 1px solid white;
+    position: fixed;
+    top: 14px;
+    left: 65%;
+    border: 3px solid orangered;
+    right: 0;
+    width: 320px;
+    padding: 1%;
+   
+    font-family: 'Courier New', Courier, monospace;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background: rgba(255,255,255,1.5); 
+    margin-top: 76px;
+    overflow:auto;
+}
+
+.popup-inner{
+    position: relative;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    color: white;
+}
+
+.popup-inner .close-btn{
+    position: absolute;
+    top:0px;
+    border-radius: 10%;
+    right: 0px;
+    background-color: white;
+    cursor: pointer;
+    color: black;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .popup-profile{
+        border-radius: 10px;
+        border: 1px solid white;
+        position: fixed;
+        top: 14px;
+        left: 52%;
+        border: 3px solid orangered;
+        right: 0;
+        width: 300px;
+        padding: 1%;
+       
+        font-family: 'Courier New', Courier, monospace;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+        background: rgba(255,355,255,1.5);
+        margin-top: 76px;
+        overflow: auto;
+    }
+    
+    .popup-inner{
+        position: relative;
+        padding: 10px;
+        width: 100%;
+        max-width: 300px;
+        color: white;
+    }
+    
+    .popup-inner .close-btn{
+        position: absolute;
+        top:0px;
+        border-radius: 10px;
+        right: 0px;
+        background-color: white;
+        cursor: pointer;
+        color: black;
+    }
+    
+}
+
+@media screen and (max-width: 700px) {
+    .popup-profile{
+        border-radius: 10px;
+        border: 3px solid orangered;
+        position: fixed;
+        top: 13px;
+        left: 16%;
+       
+        width: 276px;
+        padding: 2%;
+        
+        font-family: 'Courier New', Courier, monospace;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+        font-size: large;
+       
+    }
+    
+    .popup-inner{
+        position: relative;
+        padding: 10px;
+        width: 100%;
+        max-width: 300px;
+        color: white;
+    }
+    
+    .popup-inner .close-btn{
+        position: absolute;
+        top:0px;
+        border-radius: 10px;
+        right: 0px;
+        background-color: white;
+        cursor: pointer;
+        color: black;
+    }
+    
+}
