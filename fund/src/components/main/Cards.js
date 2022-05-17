@@ -75,7 +75,7 @@ function Cards() {
                                     level="L"
                                     style={{ width: 150 }}
                                     // value={"\n Product id: "+(curElem.pid)+"\n" + (curElem.name) + "\n Compnay:" + (curElem.company) + "\n Color:" + (curElem.color) + "\n MFG:" + (curElem.mfg) + "\n Expiry:" + (curElem.expiry)}
-                                    value={(curElem.pid)}
+                                    value={(curElem.pid)+"\n" + (curElem.name)}
 
                                 />
                                 <br />

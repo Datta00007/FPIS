@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider'
 import { loadContract } from "../utils/load-contract";
-import {toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // import { useHistory } from 'react-router-dom';
@@ -30,8 +30,8 @@ function Product(props) {
     const [balance, setBalance] = useState(null);
     const [account, setAccount] = useState(null);
     // const [sender, setSender] = useState(null);
-    
-    if(balance!== null && balance!==0);
+
+    if (balance !== null && balance !== 0);
     useEffect(() => {
 
         const loadProvider = async () => {
@@ -62,8 +62,9 @@ function Product(props) {
         const getAccount = async () => {
             const accounts = await web3Api.web3.eth.getAccounts();
             setAccount(accounts[0]);
+            // const account2 = (await Web3.eth.getAccounts())[3]
             // setSender(accounts[0]);
-            // console.log(accounts);
+            // console.log(account2);
         }
         web3Api.web3 && getAccount()
     }, [web3Api.web3])
@@ -72,7 +73,9 @@ function Product(props) {
         const loadBalance = async () => {
             const { contract, web3 } = web3Api;
             const balance = await web3.eth.getBalance(contract.address);
+            
             setBalance(web3.utils.fromWei(balance, "ether"));
+            // toast(balance);
         }
         web3Api.contract && loadBalance();
     }, [web3Api])
@@ -81,26 +84,38 @@ function Product(props) {
     const transferFund = async (prid) => {
         // toast(prid);
         const { web3, contract } = web3Api;
+        
+
         await web3.eth.sendTransaction({
             from: account,
             to: "0xbaBA78c2072fafe284391Aa18e21e9180861824A",
             value: web3.utils.toWei("0.6", "ether"),
-            
+
         });
 
+        contract.transfer({
+            from: account,
+            //to: account,
+            // data:"from the 2nd account",
+            value: web3.utils.toWei("0", "ether"),
+        });
+        await contract.methods.set(prid).send({ from: account });
         
-        await contract.methods.set(prid).send({from: account});
         // await contract.transfer({
         //     from: account,
         //     //to: account,
         //     // data:"from the 2nd account",
         //     value: web3.utils.toWei("0", "ether"),
         // })
-        
-        
-        
-    }
-
+        toast(balance);
+        await contract.deployed().then(function (contractInstance) {
+            contractInstance.function({ from: web3.eth.accounts[0] }).then(function (result) {
+                alert('transaction success')
+            }).catch(function (e) {
+                console.log('error')
+            });
+        }  ) 
+}
     // const withdrawFund = async () => {
     //     const { web3, contract } = web3Api;
     //     const withdrawAmount = web3.utils.toWei("2", "ether");
@@ -113,7 +128,7 @@ function Product(props) {
     //     window.location.reload(false);
     // }
     const [user, setUser] = useState({
-        pid:"",
+        pid: "",
         name: "",
         username: sessionStorage.getItem("username"),
         company: sessionStorage.getItem("name"),
@@ -132,33 +147,36 @@ function Product(props) {
         })
     }
 
-    const addproduct = () => {
+    const addproduct = async () => {
         // if (user.expiry === "") {
         //     setUser.expiry("NA")
         // }
 
-        const {name, category,color, mfg, expiry} = user;
-        if(!name || !category || !color || !mfg || !expiry)
-        {
-            toast.warn("all fields are required", {theme: "dark",position: toast.POSITION.TOP_LEFT});
+        const { name, category, color, mfg, expiry } = user;
+        if (!name || !category || !color || !mfg || !expiry) {
+            toast.warn("all fields are required", { theme: "dark", position: toast.POSITION.TOP_LEFT });
             return;
         }
         user.pid = uuid();
-        
+        transferFund(user.pid);
         // console.log(uuid());
         axios.post("http://localhost:9002/addproduct", user)
             .then(res => {
                 //console.log(res.data.user);
-                toast.success(res.data.message, {theme: "dark",position: toast.POSITION.TOP_LEFT})
-                
+
+                //toast.success(res.data.message, {theme: "dark"})
+                setTimeout(() => {
+                    toast.success(res.data.message, { theme: "dark" })
+                }, 20000);
+
                 // window.location.reload(false);
 
 
             })
-        transferFund(user.pid);
+
         setTimeout(() => {
             window.location.reload(false);
-          }, 20000);
+        }, 20000);
     }
 
 
@@ -192,7 +210,7 @@ function Product(props) {
                             <br />
                             <br />
 
-                            <input type="text" name="color" value={user.color} onChange={handleChange} placeholder="Color" autoComplete='off' required/>
+                            <input type="text" name="color" value={user.color} onChange={handleChange} placeholder="Color" autoComplete='off' required />
                             <br />
                             <br />
 
@@ -205,11 +223,11 @@ function Product(props) {
                                     e.currentTarget.type = "date";
                                     e.currentTarget.focus();
                                 }
-                            } autoComplete='off' required/>
+                            } autoComplete='off' required />
                             <br />
                             <br />
 
-                            <input type="text" id="expiry" name="expiry" value={user.expiry}  onChange={handleChange} placeholder="Best before/ Warrenty" onFocus={
+                            <input type="text" id="expiry" name="expiry" value={user.expiry} onChange={handleChange} placeholder="Best before/ Warrenty" onFocus={
                                 (e) => {
                                     e.currentTarget.type = "date";
                                     // e.currentTarget.value(user.expiry);

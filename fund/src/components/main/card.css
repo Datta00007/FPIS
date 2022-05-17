@@ -72,5 +72,8 @@
     .card-container{
         justify-content: center;
     }
+    .card{
+        width: 75%;
+    }
     
 }

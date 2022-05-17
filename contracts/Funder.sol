@@ -7,7 +7,7 @@ contract Funder{
     mapping(uint=>address)  private funders;
     string public msgp;
     receive() external payable{}
-
+    
     function transfer(string memory _msgp) external payable
     {
         funders[numOfFunders] = msg.sender;
