@@ -107,7 +107,7 @@ router.post("/addproduct", (req, res) => {
         if (err) {
             res.send(err)
         } else {
-            res.send({ message: "Successfully Added" })
+            res.send({ message: "Item added successfully!" })
         }
     })
 

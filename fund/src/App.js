@@ -24,7 +24,7 @@ function App() {
 
   return (
     <Router>
-      <ToastContainer autoClose={2000}/>
+      <ToastContainer autoClose={5000}/>
       <Switch>
         <Route path='/' exact component={Home} />
 

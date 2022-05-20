@@ -21,7 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import { useHistory } from 'react-router-dom';
 function Product(props) {
     // const history = useHistory()
-
+    const [isPaid, setIsPaid] = useState(false);
     const [web3Api, setWeb3Api] = useState({
         provider: null,
         web3: null,
@@ -73,52 +73,104 @@ function Product(props) {
         const loadBalance = async () => {
             const { contract, web3 } = web3Api;
             const balance = await web3.eth.getBalance(contract.address);
-            
+
             setBalance(web3.utils.fromWei(balance, "ether"));
             // toast(balance);
         }
         web3Api.contract && loadBalance();
     }, [web3Api])
     //console.log(account);
+    const setpid = (prid) => {
+        const { contract, web3 } = web3Api;
 
+        const NameContract = new web3.eth.Contract(contract.abi, contract.address);
+        NameContract.methods.setPid(prid).send();
+        console.log("inside of setpid");
+        // toast(NameContract.methods.getPid().call(),{position:toast.POSITION.TOP_LEFT});
+        // console.log(NameContract.methods.getPid().call())
+
+    }
     const transferFund = async (prid) => {
         // toast(prid);
-        const { web3, contract } = web3Api;
-        
-
-        await web3.eth.sendTransaction({
-            from: account,
-            to: "0xbaBA78c2072fafe284391Aa18e21e9180861824A",
-            value: web3.utils.toWei("0.6", "ether"),
-
-        });
-
-        contract.transfer({
+        const { contract, web3 } = web3Api;
+        setpid(prid);
+        // let tx_hash = await contract.functions.transfer(prid).transact();
+        // let tx_receipt = await web3.eth.waitForTransactionReceipt(tx_hash);
+        // toast(tx_receipt);
+        // await contract.setPid(prid).send();
+        // value: web3.utils.toWei("0.000008", "ether"),
+        // await contract.setPid(prid);
+        await contract.transfer({
             from: account,
             //to: account,
             // data:"from the 2nd account",
-            value: web3.utils.toWei("0", "ether"),
-        });
-        await contract.methods.set(prid).send({ from: account });
-        
+            value: web3.utils.toWei("2", "ether"),
+        })
+        // await web3.eth.sendTransaction({
+        //     from: account,
+        //     to: "0xbaBA78c2072fafe284391Aa18e21e9180861824A",
+        //     value: web3.utils.toWei("0.000008", "ether"),
+
+        // })
+        const withdrawAmount = web3.utils.toWei("1", "ether");
+        //const accounts = await web3Api.web3.eth.getAccounts();
+
+        await contract.withdraw(withdrawAmount, {
+            from: account,
+
+        })
+            .then(res => {
+                if (res) {
+                    setIsPaid(true);
+                    toast.success("transaction completed successfully!");
+                    axios.post("http://localhost:9002/addproduct", user)
+                        .then(res => {
+                            //console.log(res.data.user);
+
+                            toast.success(res.data.message, {theme: "dark"})
+                            // withdrawFund();
+                            setTimeout(() => {
+                                window.location.reload(false);
+                            }, 7000);
+
+                            // window.location.reload(false);
+
+
+                        })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+
+                toast.error(err.message ? err.message : "Something went wrong ! Please try after sometime");
+                toast.error("Sorry, can't add your product");
+                setTimeout(() => {
+                    window.location.reload(false);
+                }, 5000);
+
+            })
+
+
+        // await contract.methods.set(prid).send({ from: account });
+
         // await contract.transfer({
         //     from: account,
         //     //to: account,
         //     // data:"from the 2nd account",
         //     value: web3.utils.toWei("0", "ether"),
         // })
-        toast(balance);
-        await contract.deployed().then(function (contractInstance) {
-            contractInstance.function({ from: web3.eth.accounts[0] }).then(function (result) {
-                alert('transaction success')
-            }).catch(function (e) {
-                console.log('error')
-            });
-        }  ) 
-}
+        // toast(balance);
+        // await contract.deployed().then(function (contractInstance) {
+        //     contractInstance.function({ from: web3.eth.accounts[0] }).then(function (result) {
+        //         alert('transaction success')
+        //     }).catch(function (e) {
+        //         console.log('error')
+        //     });
+        // }  ) 
+    }
     // const withdrawFund = async () => {
     //     const { web3, contract } = web3Api;
-    //     const withdrawAmount = web3.utils.toWei("2", "ether");
+    //     const withdrawAmount = web3.utils.toWei("0.000009", "ether");
     //     //const accounts = await web3Api.web3.eth.getAccounts();
 
     //     await contract.withdraw(withdrawAmount, {
@@ -160,23 +212,28 @@ function Product(props) {
         user.pid = uuid();
         transferFund(user.pid);
         // console.log(uuid());
-        axios.post("http://localhost:9002/addproduct", user)
-            .then(res => {
-                //console.log(res.data.user);
+        // if (isPaid) {
+        //     axios.post("http://localhost:9002/addproduct", user)
+        //         .then(res => {
+        //             //console.log(res.data.user);
 
-                //toast.success(res.data.message, {theme: "dark"})
-                setTimeout(() => {
-                    toast.success(res.data.message, { theme: "dark" })
-                }, 20000);
+        //             //toast.success(res.data.message, {theme: "dark"})
+        //             setTimeout(() => {
+        //                 toast.success(res.data.message, { theme: "dark" })
+        //             }, 20000);
 
-                // window.location.reload(false);
+        //             // window.location.reload(false);
 
 
-            })
+        //         })
+        // }
+        // else {
+        //     toast.error("can not add product", { theme: "dark", position: toast.POSITION.TOP_LEFT });
+        // }
 
-        setTimeout(() => {
-            window.location.reload(false);
-        }, 20000);
+        // setTimeout(() => {
+        //     window.location.reload(false);
+        // }, 20000);
     }
 
 

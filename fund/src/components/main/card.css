@@ -73,7 +73,9 @@
         justify-content: center;
     }
     .card{
-        width: 75%;
+        width: 70%;
     }
-    
+    .card-client{
+        width: 75%;
+    }   
 }

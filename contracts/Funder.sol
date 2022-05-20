@@ -6,13 +6,20 @@ contract Funder{
     uint public numOfFunders;
     mapping(uint=>address)  private funders;
     string public msgp;
-    receive() external payable{}
+    string[] public row;
     
-    function transfer(string memory _msgp) external payable
+    function getPid() public view returns (string memory)
+        {
+            return msgp;
+        }
+    function setPid(string memory _msgp) public
+    {
+        msgp = _msgp;
+        row.push(_msgp);
+    }
+    function transfer() external payable
     {
         funders[numOfFunders] = msg.sender;
-        msgp = _msgp;
-
     }
 
     function withdraw(uint256 withdrawAmount ) external
