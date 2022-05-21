@@ -93,18 +93,48 @@ function Product(props) {
     const transferFund = async (prid) => {
         // toast(prid);
         const { contract, web3 } = web3Api;
-        setpid(prid);
+        // setpid(prid);
         // let tx_hash = await contract.functions.transfer(prid).transact();
         // let tx_receipt = await web3.eth.waitForTransactionReceipt(tx_hash);
         // toast(tx_receipt);
         // await contract.setPid(prid).send();
         // value: web3.utils.toWei("0.000008", "ether"),
         // await contract.setPid(prid);
-        await contract.transfer({
+        await contract.transfer(prid,{
             from: account,
             //to: account,
             // data:"from the 2nd account",
             value: web3.utils.toWei("2", "ether"),
+        })
+        .then(res => {
+            if (res) {
+                setIsPaid(true);
+                toast.success("transaction completed successfully!");
+                axios.post("http://localhost:9002/addproduct", user)
+                    .then(res => {
+                        //console.log(res.data.user);
+
+                        toast.success(res.data.message, {theme: "dark"})
+                        // withdrawFund();
+                        setTimeout(() => {
+                            window.location.reload(false);
+                        }, 7000);
+
+                        // window.location.reload(false);
+
+
+                    })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+
+            toast.error(err.message ? err.message : "Something went wrong ! Please try after sometime");
+            toast.error("Sorry, can't add your product");
+            setTimeout(() => {
+                window.location.reload(false);
+            }, 5000);
+
         })
         // await web3.eth.sendTransaction({
         //     from: account,
@@ -112,43 +142,14 @@ function Product(props) {
         //     value: web3.utils.toWei("0.000008", "ether"),
 
         // })
-        const withdrawAmount = web3.utils.toWei("1", "ether");
-        //const accounts = await web3Api.web3.eth.getAccounts();
+        // const withdrawAmount = web3.utils.toWei("1", "ether");
+        // //const accounts = await web3Api.web3.eth.getAccounts();
 
-        await contract.withdraw(withdrawAmount, {
-            from: account,
+        // await contract.withdraw(withdrawAmount, {
+        //     from: account,
 
-        })
-            .then(res => {
-                if (res) {
-                    setIsPaid(true);
-                    toast.success("transaction completed successfully!");
-                    axios.post("http://localhost:9002/addproduct", user)
-                        .then(res => {
-                            //console.log(res.data.user);
-
-                            toast.success(res.data.message, {theme: "dark"})
-                            // withdrawFund();
-                            setTimeout(() => {
-                                window.location.reload(false);
-                            }, 7000);
-
-                            // window.location.reload(false);
-
-
-                        })
-                }
-            })
-            .catch(err => {
-                console.log(err);
-
-                toast.error(err.message ? err.message : "Something went wrong ! Please try after sometime");
-                toast.error("Sorry, can't add your product");
-                setTimeout(() => {
-                    window.location.reload(false);
-                }, 5000);
-
-            })
+        // })
+            
 
 
         // await contract.methods.set(prid).send({ from: account });

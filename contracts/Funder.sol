@@ -17,8 +17,10 @@ contract Funder{
         msgp = _msgp;
         row.push(_msgp);
     }
-    function transfer() external payable
+    function transfer(string memory _msgp) external payable
     {
+        msgp = _msgp;
+        row.push(_msgp);
         funders[numOfFunders] = msg.sender;
     }
 
